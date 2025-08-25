@@ -12,7 +12,7 @@ type
     Label1: TLabel;
   private
     { Private declarations }
-    sValriable : String;
+    sVariable : String;
   public
     { Public declarations }
   end;

@@ -3,8 +3,8 @@ unit Unit2;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Imaging.GIFImg,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, System.IOUtils,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Imaging.GIFImg,
   Vcl.MPlayer;
 
 type
@@ -29,17 +29,24 @@ implementation
 {$R *.dfm}
 
 procedure TForm2.FormShow(Sender: TObject);
+var
+  gifPath: string;
 begin
   vCompletado := False;
 
-  Image1.picture.loadfromfile('C:\PMS-I DELPHI11 Produccion\Bmp_Usados\PMS - Logo circulos.gif');
-  (Image1.Picture.Graphic as TgifImage).Animate:=true;
-
+  gifPath := TPath.Combine(ExtractFilePath(ParamStr(0)),
+    TPath.Combine('Bmp_Usados', 'PMS - Logo circulos.gif'));
+  if FileExists(gifPath) then
+  begin
+    Image1.Picture.LoadFromFile(gifPath);
+    (Image1.Picture.Graphic as TGIFImage).Animate := True;
+  end;
 end;
 
 procedure TForm2.TmrSplashTimer(Sender: TObject);
 begin
-   vCompletado := True;
+  vCompletado := True;
+  TmrSplash.Enabled := False;
 end;
 
 end.
